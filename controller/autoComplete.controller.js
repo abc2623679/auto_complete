@@ -3,7 +3,6 @@ const env = require("../config/env.config")
 const autoCompleteRepository = require('../repository/autoComplete.repository');
 const { result } = require("../func/misc");
 const { success, error } = result;
-const Validator = require('@fgb/module-validator');
 
 module.exports = {
 

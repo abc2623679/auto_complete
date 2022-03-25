@@ -1,5 +1,4 @@
 const { dbConnection } = require("../func/customFunction")
-const Validator = require('@fgb/module-validator');
 
 module.exports={
 
