@@ -3,6 +3,8 @@ const env = require("../config/env.config")
 const autoCompleteRepository = require('../repository/autoComplete.repository');
 const { result } = require("../func/misc");
 const { success, error } = result;
+const moment = require('moment')
+
 
 module.exports = {
 
@@ -29,6 +31,27 @@ module.exports = {
         }
     
      },
+
+     postWord: async (req, res, next) => { 
+
+        try{
+
+            const { category,keyword } = req.body
+
+            let currentTime = moment().hours()
+
+            await autoCompleteRepository.postWord(category,keyword,currentTime)
+
+            next(success.ok({}));
+
+        } catch(e){
+
+            next(e)
+
+        }
+    
+     },
+
 
      putSearchCount: async (req, res, next) => { 
 

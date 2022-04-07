@@ -9,9 +9,34 @@ module.exports={
         try {
 
           const dataList = await collection.collection.find({keyword:{$regex: new RegExp('^'+keyword) }}).sort({"weight":-1}).limit(Number(limit)).toArray()
-          
+
           return {dataList}
     
+        } catch(e) {
+
+          throw e;
+
+        }finally {
+
+          collection.client.close();
+
+        }
+      },
+
+    postWord: async (category,keyword,currentTime) => {
+
+      const collection = await dbConnection();
+
+        try {
+
+          let result = await collection.collection.find({keyword:keyword},{keyword:1}).toArray()
+
+          if(result.length===0){
+
+            await collection.collection.insertOne({category: category, keyword:keyword, weight:0, shard:currentTime, searchCount:0,satisfactionCount:0,force:false})
+
+          } 
+          
         } catch(e) {
 
           throw e;
