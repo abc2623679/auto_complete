@@ -1,13 +1,33 @@
 const envConfig = require("./config/env.config.js");
 const { connectToDB } = require('./db/db');
+const logger = require("./func/logger");
 
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const cron = require("./cron/cron")
+require("moment-timezone");
+const moment = require('moment')
+moment.tz.setDefault("Asia/Seoul");
 const { response, notFound } = require("./middleware/result.middleware");
 
+const morgan = require("morgan");
+
 const app = express();
+
+app.use(morgan(envConfig.LOG.morgan, { stream: logger.stream }));
+
+
+morgan.token("date", (req, res, tz) => {
+  return moment.tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss");
+});
+
+morgan.token("param", (req, res) => {
+  if (Object.keys(req.query).length !== 0) return `query: ${JSON.stringify(req.query)}\n`;
+  else if (Object.keys(req.body).length !== 0) return `body: ${JSON.stringify(req.body)}\n`;
+  else return `\n`;
+});
+
 
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -50,6 +70,9 @@ app.use("/autoComplete",require("./route/autoComplete.route"))
 //     res.send({});
 
 //   });
+
+
+
 
 
 app.use(express.static("public"));

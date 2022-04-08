@@ -35,7 +35,11 @@ module.exports={
 
             await collection.collection.insertOne({category: category, keyword:keyword, weight:0, shard:currentTime, searchCount:0,satisfactionCount:0,force:false})
 
-          } 
+          }else{
+
+            await collection.collection.updateOne({keyword:keyword},{$inc:{searchCount:1}})
+
+          }
           
         } catch(e) {
 

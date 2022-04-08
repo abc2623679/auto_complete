@@ -3,6 +3,9 @@ const envConfig = require("dotenv").config().parsed;
 module.exports={
     MONGO_URL : `mongodb://${envConfig.MONGO_USER}:${envConfig.MONGO_PW}@localhost:27017/${envConfig.MONGO_DB_NAME}?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false`,
          PORT : envConfig.PORT,
+         LOG: {
+            morgan: ":param:date[iso] :status :method :url :response-time ms :res[content-length] bytes",
+        },
          HTTP_STATUS: [
             { code: 200, name: "ok" },
             { code: 400, name: "badRequest", defaultMessage: "잘못된 요청입니다." },
