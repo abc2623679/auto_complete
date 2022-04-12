@@ -58,10 +58,6 @@ module.exports = {
         try{
 
             const { keyword } = req.body
-
-            if(keyword.length!==0){
-                if(keyword.length<2 || keyword.length>7) throw error.badRequest("검색글자는 2~7글자입니다.")
-            }
  
             await autoCompleteRepository.putSearchCount( keyword )
 
@@ -80,11 +76,7 @@ module.exports = {
         try{
 
             const { keyword } = req.body
-
-            if(keyword.length!==0){
-                if(keyword.length<2 || keyword.length>7) throw error.badRequest("검색글자는 2~7글자입니다.")
-            }
- 
+            
             await autoCompleteRepository.putsatisfactionCount( keyword )
 
             next(success.ok({}));
