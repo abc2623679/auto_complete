@@ -8,7 +8,23 @@ module.exports={
 
         try {
 
-          const dataList = await collection.collection.find({keyword:{$regex: new RegExp('^'+keyword) }}).sort({"weight":-1}).limit(Number(limit)).toArray()
+            const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi //특수문자제거
+
+              if(reg.test(keyword)){                
+                keyword = keyword.replace(reg, "");    
+              }
+              
+            let dataList;
+
+          if(keyword!==''){ //특수문자제거후 빈값이 아닐때 SELECT
+
+            dataList = await collection.collection.find({keyword:{$regex: new RegExp('^'+keyword) }}).sort({"weight":-1}).limit(Number(limit)).toArray()  
+
+          }else{
+
+            dataList = []
+
+          }
 
           return {dataList}
     
@@ -33,7 +49,19 @@ module.exports={
 
           if(result.length===0){
 
+            const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi //특수문자제거
+
+              if(reg.test(keyword)){                
+                keyword = keyword.replace(reg, "");    
+              } 
+
+          if(keyword!==''){ //특수문자제거후 빈값이 아닐때 insert
+
             await collection.collection.insertOne({category: category, keyword:keyword, weight:0, shard:currentTime, searchCount:0,satisfactionCount:0,force:false})
+
+          }
+
+           
 
           }else{
 
