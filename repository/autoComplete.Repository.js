@@ -8,23 +8,32 @@ module.exports={
 
         try {
 
-            const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi //특수문자제거
+                keyword=keyword.split("")
 
-              if(reg.test(keyword)){                
-                keyword = keyword.replace(reg, "");    
-              }
-              
-            let dataList;
+                let value1 =''
+                let value2 ='^'
 
-          if(keyword!==''){ //특수문자제거후 빈값이 아닐때 SELECT
+                for(let i = 0 ; i<keyword.length;i++){
 
-            dataList = await collection.collection.find({keyword:{$regex: new RegExp('^'+keyword) }}).sort({"weight":-1}).limit(Number(limit)).toArray()  
+                  const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi //특수문자확인
 
-          }else{
+                  if(reg.test(keyword[i])){                
+                      let result = '\\'
+                      result = result+keyword[i]
+                    keyword[i] = keyword[i].replace(reg,result);
 
-            dataList = []
+                    value2 +=  value1.concat(keyword[i])
+                    
+                  }else{
 
-          }
+                    value2+=  value1.concat(keyword[i])
+
+                  }
+
+                }
+
+                  dataList = await collection.collection.find({keyword:{$regex: new RegExp(value2) }}).sort({"weight":-1}).limit(Number(limit)).toArray()  
+
 
           return {dataList}
     
@@ -49,19 +58,7 @@ module.exports={
 
           if(result.length===0){
 
-            const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi //특수문자제거
-
-              if(reg.test(keyword)){                
-                keyword = keyword.replace(reg, "");    
-              } 
-
-          if(keyword!==''){ //특수문자제거후 빈값이 아닐때 insert
-
             await collection.collection.insertOne({category: category, keyword:keyword, weight:0, shard:currentTime, searchCount:0,satisfactionCount:0,force:false})
-
-          }
-
-           
 
           }else{
 

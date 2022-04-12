@@ -9,6 +9,6 @@ router.put("/searchCount", autoCompleteController.putSearchCount); // 클릭수�
 router.put("/satisfactionCount", autoCompleteController.putsatisfactionCount); // 만족수증가
 router.put("/forceWeight", autoCompleteController.putForceWeight); // 가중치강제변경
 
-router.put("/test", autoCompleteRepository.putweightAtTime); // 테스트
+router.put("/test", autoCompleteRepository.putweightAtTime); // 가중치테스트
 
 module.exports = router;
