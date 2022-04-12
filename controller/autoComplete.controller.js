@@ -96,13 +96,31 @@ module.exports = {
 
             const { weight, keyword } = req.body
 
-            if(keyword.length!==0){
-                if(keyword.length<2 || keyword.length>7) throw error.badRequest("검색글자는 2~7글자입니다.")
-            }
-
             if(isNaN(Number(weight))) throw error.badRequest("weight은 숫자여야합니다") 
  
             await autoCompleteRepository.putForceWeight( weight, keyword )
+
+            next(success.ok({}));
+            
+        } catch(e){
+
+            next(e)
+
+        }
+    
+     },
+
+     putForce : async (req, res, next) => { 
+
+        try{
+
+            const { keyword } = req.body
+
+            let result = await autoCompleteRepository.checkExist( keyword )
+
+            if(result===false) throw error.badRequest("가중치변경이 안된 상태입니다.")
+ 
+            await autoCompleteRepository.putForce( keyword )
 
             next(success.ok({}));
             

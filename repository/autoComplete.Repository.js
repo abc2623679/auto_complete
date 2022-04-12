@@ -1,4 +1,6 @@
 const { dbConnection } = require("../func/customFunction")
+const { result } = require("../func/misc");
+const { success, error } = result;
 
 module.exports={
 
@@ -20,13 +22,13 @@ module.exports={
                   if(reg.test(keyword[i])){                
                       let result = '\\'
                       result = result+keyword[i]
-                    keyword[i] = keyword[i].replace(reg,result);
+                      keyword[i] = keyword[i].replace(reg,result);
 
-                    value2 +=  value1.concat(keyword[i])
+                      value2 +=  value1.concat(keyword[i])
                     
                   }else{
 
-                    value2+=  value1.concat(keyword[i])
+                      value2+=  value1.concat(keyword[i])
 
                   }
 
@@ -57,6 +59,8 @@ module.exports={
           let result = await collection.collection.find({keyword:keyword},{keyword:1}).toArray()
 
           if(result.length===0){
+
+            keyword =keyword.trim()
 
             await collection.collection.insertOne({category: category, keyword:keyword, weight:0, shard:currentTime, searchCount:0,satisfactionCount:0,force:false})
 
@@ -121,13 +125,13 @@ module.exports={
 
       try {
 
-        const currentHour = new Date().getHours()
+       const currentHour = new Date().getHours()
 
        const result = await collection.collection.find().toArray()
 
        if(result.length!=0){
 
-        await collection.collection.update({shard:currentHour},
+        await collection.collection.updateMany({shard:currentHour,force:false},
           [
             {
               $addFields: {
@@ -155,9 +159,7 @@ module.exports={
               }
             }
           ],
-          {
-            multi: true
-          })
+        )
 
        }
 
@@ -174,11 +176,51 @@ module.exports={
 
     putForceWeight: async ( weight, keyword ) => {
 
-      const collection = await dbConnection();
+      const collection = await dbConnection()
 
       try {
 
         await collection.collection.updateOne({keyword:keyword},{$set:{weight:weight,force:true}})
+  
+      } catch(e) {
+
+        throw e;
+
+      }finally {
+
+        collection.client.close();
+
+      }
+    }, 
+
+    checkExist: async (  keyword ) => {
+
+      const collection = await dbConnection();
+
+      try {
+      
+        let result = await collection.collection.find({keyword:keyword},{force:1}).toArray()
+        
+        return result[0].force
+
+      } catch(e) {
+
+        throw e;
+
+      }finally {
+
+        collection.client.close();
+
+      }
+    }, 
+
+    putForce : async ( keyword ) => {
+
+      const collection = await dbConnection();
+
+      try {
+
+        await collection.collection.updateOne({keyword:keyword},{$set:{force:false}})
   
       } catch(e) {
 
