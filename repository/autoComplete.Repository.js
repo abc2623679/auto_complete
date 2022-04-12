@@ -1,40 +1,17 @@
-const { dbConnection } = require("../func/customFunction")
+const { dbConnection,regex } = require("../func/customFunction")
 const { result } = require("../func/misc");
 const { success, error } = result;
 
 module.exports={
 
-    getIndex : async (limit, keyword) => {
+    getIndex : async (limit, keyword, category) => {
 
       const collection = await dbConnection();
 
         try {
+                  let value = await regex(keyword,1)
 
-                keyword=keyword.split("")
-
-                let value1 =''
-                let value2 ='^'
-
-                for(let i = 0 ; i<keyword.length;i++){
-
-                  const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi //특수문자확인
-
-                  if(reg.test(keyword[i])){                
-                      let result = '\\'
-                      result = result+keyword[i]
-                      keyword[i] = keyword[i].replace(reg,result);
-
-                      value2 +=  value1.concat(keyword[i])
-                    
-                  }else{
-
-                      value2+=  value1.concat(keyword[i])
-
-                  }
-
-                }
-
-                  dataList = await collection.collection.find({keyword:{$regex: new RegExp(value2) }}).sort({"weight":-1}).limit(Number(limit)).toArray()  
+                  dataList = await collection.collection.find({category:category, keyword:{$regex: new RegExp(value) }}).sort({"weight":-1}).limit(Number(limit)).toArray()  
 
 
           return {dataList}
@@ -56,17 +33,17 @@ module.exports={
 
         try {
 
-          let result = await collection.collection.find({keyword:keyword},{keyword:1}).toArray()
+          let result = await collection.collection.find({category: category,keyword:keyword},{keyword:1}).toArray()
 
           if(result.length===0){
 
-            keyword =keyword.trim()
+            keyword = keyword.trim()
 
             await collection.collection.insertOne({category: category, keyword:keyword, weight:0, shard:currentTime, searchCount:0,satisfactionCount:0,force:false})
 
           }else{
 
-            await collection.collection.updateOne({keyword:keyword},{$inc:{searchCount:1}})
+            await collection.collection.updateOne({category: category,keyword:keyword},{$inc:{searchCount:1}})
 
           }
           
@@ -81,13 +58,13 @@ module.exports={
         }
       },
 
-    putSearchCount: async ( keyword ) => {
+    putSearchCount: async ( keyword, category ) => {
 
       const collection = await dbConnection();
 
       try {
 
-        await collection.collection.updateOne({keyword:keyword},{$inc:{searchCount:1}})
+        await collection.collection.updateOne({category:category, keyword:keyword},{$inc:{searchCount:1}})
   
       } catch(e) {
 
@@ -100,13 +77,13 @@ module.exports={
       }
     },
 
-    putsatisfactionCount: async ( keyword ) => {
+    putsatisfactionCount: async ( keyword, category ) => {
 
       const collection = await dbConnection();
 
       try {
 
-        await collection.collection.updateOne({keyword:keyword},{$inc:{satisfactionCount:1}})
+        await collection.collection.updateOne({category:category,keyword:keyword},{$inc:{satisfactionCount:1}})
   
       } catch(e) {
 
@@ -174,13 +151,13 @@ module.exports={
       }
     }, 
 
-    putForceWeight: async ( weight, keyword ) => {
+    putForceWeight: async ( weight, keyword, category ) => {
 
       const collection = await dbConnection()
 
       try {
 
-        await collection.collection.updateOne({keyword:keyword},{$set:{weight:weight,force:true}})
+        await collection.collection.updateOne({category:category, keyword:keyword},{$set:{weight:weight,force:true}})
   
       } catch(e) {
 
@@ -193,15 +170,17 @@ module.exports={
       }
     }, 
 
-    checkExist: async (  keyword ) => {
+    checkExist: async ( keyword, category ) => {
 
       const collection = await dbConnection();
 
       try {
+
+        let value = await regex(keyword,2)
       
-        let result = await collection.collection.find({keyword:keyword},{force:1}).toArray()
-        
-        return result[0].force
+        let result = await collection.collection.find({category:category, keyword:{$regex: new RegExp(value)}}).toArray()
+
+        return result
 
       } catch(e) {
 
@@ -214,13 +193,13 @@ module.exports={
       }
     }, 
 
-    putForce : async ( keyword ) => {
+    putForce : async ( keyword,category ) => {
 
       const collection = await dbConnection();
 
       try {
 
-        await collection.collection.updateOne({keyword:keyword},{$set:{force:false}})
+        await collection.collection.updateOne({category:category,keyword:keyword},{$set:{force:false}})
   
       } catch(e) {
 
