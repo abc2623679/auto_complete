@@ -5,7 +5,6 @@ const { result } = require("../func/misc");
 const { success, error } = result;
 const moment = require('moment')
 
-
 module.exports = {
 
     getIndex: async (req, res, next) => { 
@@ -37,7 +36,7 @@ module.exports = {
         try{
 
             const { category,keyword } = req.body
-
+      
             let currentTime = moment().hours()
 
             await autoCompleteRepository.postWord(category,keyword,currentTime)

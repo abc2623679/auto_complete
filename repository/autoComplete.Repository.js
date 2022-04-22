@@ -64,7 +64,7 @@ module.exports={
 
       try {
 
-        await collection.collection.updateOne({category:category, keyword:keyword},{$inc:{searchCount:1}})
+        await collection.collection.updateOne({category:category, keyword:keyword},{$inc:{searchCount:1}})      
   
       } catch(e) {
 
@@ -83,7 +83,9 @@ module.exports={
 
       try {
 
-        await collection.collection.updateOne({category:category,keyword:keyword},{$inc:{satisfactionCount:1}})
+       await collection.collection.updateOne({category:category,keyword:keyword},{$inc:{satisfactionCount:1}})
+
+    
   
       } catch(e) {
 

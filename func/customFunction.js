@@ -4,7 +4,7 @@ const client = require('../db/db');
 exports.dbConnection = async() => {
 
     const client = await connectToDB();
-    const collection = await client.db().collection('auto_complete');
+    const collection = await client.db().collection('testdb');
 
     return {client,collection}
   }

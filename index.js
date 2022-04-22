@@ -72,9 +72,6 @@ app.use("/autoComplete",require("./route/autoComplete.route"))
 //   });
 
 
-
-
-
 app.use(express.static("public"));
 
 app.use(notFound);
