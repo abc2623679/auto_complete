@@ -16,102 +16,102 @@ describe('API Endpoint Test', async() => {
         keyword:"테스트워드"
     }
 
-    // await deleteCollection(jsonData,"테스터 시작전에 데이터전체삭제") 
+    await deleteCollection(jsonData,"테스터 시작전에 데이터전체삭제") 
 
-    // await addWords(jsonData,"단어추가테스트에 대한 예시데이터 추가")
+    await addWords(jsonData,"단어추가테스트에 대한 예시데이터 추가")
     
-    //     describe('단어가 제대로 들어갔는지 체크', function () {
-    //         it('검색된 단어가 제대로 insert됐는지 확인', function (done) {
+        describe('단어가 제대로 들어갔는지 체크', function () {
+            it('검색된 단어가 제대로 insert됐는지 확인', function (done) {
 
-    //             const getURL =`http://localhost:3003/autoComplete?keyword=${encodeURI(jsonData.keyword)}&limit=1&category=${encodeURI(jsonData.category)}`
-    //             request.get({
-    //                 url:getURL,
-    //                 }, function (err, res, body) {
-    //                     expect(JSON.parse(body).data.dataList[0].category).to.equal(jsonData.category)
-    //                     expect(JSON.parse(body).data.dataList[0].keyword).to.equal(jsonData.keyword)
-    //                     expect(JSON.parse(body).data.dataList[0].weight).to.equal(0)
-    //                     expect(JSON.parse(body).data.dataList[0].shard).to.equal(moment().hours())
-    //                     expect(JSON.parse(body).data.dataList[0].searchCount).to.equal(0)
-    //                     expect(JSON.parse(body).data.dataList[0].satisfactionCount).to.equal(0)
-    //                     expect(JSON.parse(body).data.dataList[0].force).to.equal(false)         
-    //                     done()           
-    //                     })
+                const getURL =`http://localhost:3003/autoComplete?keyword=${encodeURI(jsonData.keyword)}&limit=1&category=${encodeURI(jsonData.category)}`
+                request.get({
+                    url:getURL,
+                    }, function (err, res, body) {
+                        expect(JSON.parse(body).data.dataList[0].category).to.equal(jsonData.category)
+                        expect(JSON.parse(body).data.dataList[0].keyword).to.equal(jsonData.keyword)
+                        expect(JSON.parse(body).data.dataList[0].weight).to.equal(0)
+                        expect(JSON.parse(body).data.dataList[0].shard).to.equal(moment().hours())
+                        expect(JSON.parse(body).data.dataList[0].searchCount).to.equal(0)
+                        expect(JSON.parse(body).data.dataList[0].satisfactionCount).to.equal(0)
+                        expect(JSON.parse(body).data.dataList[0].force).to.equal(false)         
+                        done()           
+                        })
 
-    //               })
-    //             })
+                  })
+                })
 
-    // await deleteCollection(jsonData,"자동완성단어에 대한 테스트를 마친후에 데이터삭제") 
+    await deleteCollection(jsonData,"자동완성단어에 대한 테스트를 마친후에 데이터삭제") 
 
-    // await addWords(jsonData,"클릭수 증가 테스트를 위한 예시데이터 추가")
+    await addWords(jsonData,"클릭수 증가 테스트를 위한 예시데이터 추가")
 
-    //     describe(`클릭수 증가 체크`, function () {
+        describe(`클릭수 증가 체크`, function () {
     
-    //         it(`${jsonData.keyword}의 searchCount증가 api statusCode가 200인지 확인`, function (done) {
-    //             const putURL =`http://localhost:3003/autoComplete/searchCount`
-    //             request({
-    //                 method:'PUT',
-    //                 uri:putURL,
-    //                 'content-type':'application/json',
-    //                 json:jsonData
-    //                 }, function (err, res, body ) {
-    //                     expect(res.statusCode).to.equal(200)
-    //                     done()
-    //                 })
-    //             })
+            it(`${jsonData.keyword}의 searchCount증가 api statusCode가 200인지 확인`, function (done) {
+                const putURL =`http://localhost:3003/autoComplete/searchCount`
+                request({
+                    method:'PUT',
+                    uri:putURL,
+                    'content-type':'application/json',
+                    json:jsonData
+                    }, function (err, res, body ) {
+                        expect(res.statusCode).to.equal(200)
+                        done()
+                    })
+                })
             
-    //         })
+            })
 
-    //     describe('클릭수가 1이됐는지 확인', function () {
-    //         it(`만약 insert한 ${jsonData.keyword}의 클릭스가 1이 아닐경우 에러`, function (done) {
+        describe('클릭수가 1이됐는지 확인', function () {
+            it(`만약 insert한 ${jsonData.keyword}의 클릭스가 1이 아닐경우 에러`, function (done) {
 
-    //             const getURL =`http://localhost:3003/autoComplete?keyword=${encodeURI(jsonData.keyword)}&limit=1&category=${encodeURI(jsonData.category)}`
-    //             request.get({
-    //                 url:getURL,
-    //                 }, function (err, res, body) {
-    //                     expect(JSON.parse(body).data.dataList[0].searchCount).to.equal(1)    
-    //                     done()           
-    //                     })
+                const getURL =`http://localhost:3003/autoComplete?keyword=${encodeURI(jsonData.keyword)}&limit=1&category=${encodeURI(jsonData.category)}`
+                request.get({
+                    url:getURL,
+                    }, function (err, res, body) {
+                        expect(JSON.parse(body).data.dataList[0].searchCount).to.equal(1)    
+                        done()           
+                        })
 
-    //                 })
-    //             })
+                    })
+                })
 
         
-    //     await deleteCollection(jsonData,"클릭수증가에 대한 테스트를 마치고 예시데이터 삭제")
+        await deleteCollection(jsonData,"클릭수증가에 대한 테스트를 마치고 예시데이터 삭제")
 
-        // await addWords(jsonData,"만족수 증가 테스트를 위한 예시데이터 추가")
+        await addWords(jsonData,"만족수 증가 테스트를 위한 예시데이터 추가")
 
-        // describe(`만족수 증가 체크`, function () {
+        describe(`만족수 증가 체크`, function () {
 
-        //     it(`${jsonData.keyword}의 만족수증가 api statusCode가 200인지 확인`, function (done) {
-        //         const putURL =`http://localhost:3003/autoComplete/satisfactionCount`
-        //         request({
-        //             method:'PUT',
-        //             uri:putURL,
-        //             'content-type':'application/json',
-        //             json:jsonData
-        //             }, function (err, res, body ) {
-        //                 expect(res.statusCode).to.equal(200)
-        //                 done()
-        //             })
-        //         })
+            it(`${jsonData.keyword}의 만족수증가 api statusCode가 200인지 확인`, function (done) {
+                const putURL =`http://localhost:3003/autoComplete/satisfactionCount`
+                request({
+                    method:'PUT',
+                    uri:putURL,
+                    'content-type':'application/json',
+                    json:jsonData
+                    }, function (err, res, body ) {
+                        expect(res.statusCode).to.equal(200)
+                        done()
+                    })
+                })
             
-        //     })
+            })
         
-        // describe('만족수가 1이됐는지 확인', function () {
-        //     it(`만약 insert한 ${jsonData.keyword}의 satisfactionCount가 1이 아닐경우 에러`, function (done) {
+        describe('만족수가 1이됐는지 확인', function () {
+            it(`만약 insert한 ${jsonData.keyword}의 satisfactionCount가 1이 아닐경우 에러`, function (done) {
 
-        //         const getURL =`http://localhost:3003/autoComplete?keyword=${encodeURI(jsonData.keyword)}&limit=1&category=${encodeURI(jsonData.category)}`
-        //         request.get({
-        //             url:getURL,
-        //             }, function (err, res, body) {
-        //                 expect(JSON.parse(body).data.dataList[0].satisfactionCount).to.equal(1)    
-        //                 done()           
-        //                 })
+                const getURL =`http://localhost:3003/autoComplete?keyword=${encodeURI(jsonData.keyword)}&limit=1&category=${encodeURI(jsonData.category)}`
+                request.get({
+                    url:getURL,
+                    }, function (err, res, body) {
+                        expect(JSON.parse(body).data.dataList[0].satisfactionCount).to.equal(1)    
+                        done()           
+                        })
 
-        //             })
-        //         })
+                    })
+                })
         
-        // await deleteCollection(jsonData,"만족수 증가 테스트를 마친후에 예시데이터삭제")
+        await deleteCollection(jsonData,"만족수 증가 테스트를 마친후에 예시데이터삭제")
 
         await addWords(jsonData,"가중치강제변경 테스트를 위한 예시 데이터추가")
 
@@ -158,79 +158,78 @@ describe('API Endpoint Test', async() => {
 
             await deleteCollection(jsonData,"가중치강제변경 테스트를 마친후에 예시데이터삭제")
            
-        // describe(`force를 ${force}로 강제변경`, function () {
-        //         it(`${jsonData.keyword}의 force=${force}로변경`, function (done) {
+        describe(`force를 ${force}로 강제변경`, function () {
+                it(`${jsonData.keyword}의 force=${force}로변경`, function (done) {
     
-        //             const putURL =`http://localhost:3003/autoComplete/force`
-        //             request({
-        //                 method:'PUT',
-        //                 uri:putURL,
-        //                 'content-type':'application/json',
-        //                 json:jsonData
-        //                 }, function (err, res, body ) {
-        //                     expect(res.statusCode).to.equal(200)
-        //                     done()
-        //                 })
-        //             })
-        //         })
+                    const putURL =`http://localhost:3003/autoComplete/force`
+                    request({
+                        method:'PUT',
+                        uri:putURL,
+                        'content-type':'application/json',
+                        json:jsonData
+                        }, function (err, res, body ) {
+                            expect(res.statusCode).to.equal(200)
+                            done()
+                        })
+                    })
+                })
 
        
 
-        //  describe(`force변경 체크`, function () {
+         describe(`force변경 체크`, function () {
 
-        //     it(`${jsonData.keyword}의  force = ${force} 인지 확인`, function (done) {
-        //         const getURL =`http://localhost:3003/autoComplete?keyword=${encodeURI(jsonData.keyword)}&limit=1&category=${encodeURI(jsonData.category)}`
-        //         request.get({
-        //             url:getURL,
-        //             }, function (err, res, body) {
-        //                 expect(JSON.parse(body).data.dataList[0].force).to.equal(force)    
-        //                 done()           
-        //                 })
+            it(`${jsonData.keyword}의  force = ${force} 인지 확인`, function (done) {
+                const getURL =`http://localhost:3003/autoComplete?keyword=${encodeURI(jsonData.keyword)}&limit=1&category=${encodeURI(jsonData.category)}`
+                request.get({
+                    url:getURL,
+                    }, function (err, res, body) {
+                        expect(JSON.parse(body).data.dataList[0].force).to.equal(force)    
+                        done()           
+                        })
 
-        //             })
-        //         })
+                    })
+                })
 
-        // describe(`${moment().hours()}시에 마다 weight체크`, function () {
+        describe(`${moment().hours()}시에 마다 weight체크`, function () {
 
-        //     it(`weight의 값이 만족수*0.5 + 클릭수*0.5가 되는지 확인`,async function (done) {
+            it(`weight의 값이 만족수*0.5 + 클릭수*0.5가 되는지 확인`,async function (done) {
 
-        //         const collection = await dbConnection();
+                const collection = await dbConnection();
 
-        //         await collection.collection.updateOne({category:category,keyword:keyword},{$inc:{satisfactionCount:40}})
-        //         await collection.collection.updateOne({category:category,keyword:keyword},{$inc:{searchCount:45}})
+                await collection.collection.updateOne({category:category,keyword:keyword},{$inc:{satisfactionCount:40}})
+                await collection.collection.updateOne({category:category,keyword:keyword},{$inc:{searchCount:45}})
         
-        //         await collection.client.close();
+                await collection.client.close();
 
-        //         const getURL =`http://localhost:3003/autoComplete?keyword=${encodeURI(jsonData.keyword)}&limit=1&category=${encodeURI(jsonData.category)}`
-        //         request.get({
-        //             url:getURL,
-        //             }, function (err, res, body) {
-        //                 expect(JSON.parse(body).data.dataList[0].weight).to.equal(42.5)    
-        //                 done()           
-        //                 })
+                const getURL =`http://localhost:3003/autoComplete?keyword=${encodeURI(jsonData.keyword)}&limit=1&category=${encodeURI(jsonData.category)}`
+                request.get({
+                    url:getURL,
+                    }, function (err, res, body) {
+                        expect(JSON.parse(body).data.dataList[0].weight).to.equal(42.5)    
+                        done()           
+                        })
 
-        //             })
-        //         })
+                    })
+                })
 
-        // describe('테스트데이터삭제', function () {
-        //     it(`테스트데이터가 지워졌는데 확인`, async function () {
+        describe('테스트데이터삭제', function () {
+            it(`테스트데이터가 지워졌는데 확인`, async function () {
 
-        //         const collection = await dbConnection();
+                const collection = await dbConnection();
 
-        //         await collection.collection.deleteMany({})  
+                await collection.collection.deleteMany({})  
         
-        //         await collection.client.close();
+                await collection.client.close();
     
 
-        //         const getURL =`http://localhost:3003/autoComplete?keyword=${encodeURI(jsonData.keyword)}&limit=1&category=${encodeURI(jsonData.category)}`
-        //         request.get({
-        //             url:getURL,
-        //             }, function (err, res, body) {
-        //                 expect(JSON.parse(body).data.dataList.length).to.equal(0)   
+                const getURL =`http://localhost:3003/autoComplete?keyword=${encodeURI(jsonData.keyword)}&limit=1&category=${encodeURI(jsonData.category)}`
+                request.get({
+                    url:getURL,
+                    }, function (err, res, body) {
+                        expect(JSON.parse(body).data.dataList.length).to.equal(0)   
                              
-        //                 })
+                        })
 
-        //             })
-        //         })
-
+                    })
+                })
 })
